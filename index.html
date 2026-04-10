@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>METAIMPERIYA JOBS CHAT</title>
+<title>METAIMPERIYA JOBS</title>
 
 <style>
 body{
@@ -13,18 +13,26 @@ body{
     font-family:Arial;
 }
 
+/* ШАПКА */
 header{
     text-align:center;
-    padding:20px;
+    padding:40px 20px;
     border-bottom:1px solid #00ff9c;
 }
 
 h1{
     color:#00ff9c;
+    font-size:40px;
 }
 
+.desc{
+    margin-top:10px;
+    color:#aaa;
+}
+
+/* ЧАТ */
 .chat{
-    max-width:800px;
+    max-width:900px;
     margin:20px auto;
     padding:10px;
 }
@@ -38,11 +46,11 @@ h1{
 }
 
 .message{
-    margin-bottom:10px;
     padding:10px;
     border-bottom:1px solid #333;
 }
 
+/* ВВОД */
 .input{
     display:flex;
     gap:10px;
@@ -50,14 +58,14 @@ h1{
 
 input{
     flex:1;
-    padding:10px;
+    padding:12px;
     background:#111;
     border:1px solid #00ff9c;
     color:#fff;
 }
 
 button{
-    padding:10px;
+    padding:12px;
     background:#00ff9c;
     border:none;
     cursor:pointer;
@@ -68,42 +76,58 @@ button{
 <body>
 
 <header>
-<h1>METAIMPERIYA JOBS</h1>
-<p>Пиши объявление сразу — без регистрации</p>
+    <h1>METAIMPERIYA JOBS</h1>
+    <div class="desc">
+        GLOBAL JOB NETWORK • ВАКАНСИИ • РАБОТА • НАЙМ<br>
+        Пиши объявление сразу — без регистрации
+    </div>
 </header>
 
 <div class="chat">
     <div class="messages" id="messages"></div>
 
     <div class="input">
-        <input type="text" id="msg" placeholder="Напиши вакансию или предложение...">
+        <input id="msg" placeholder="Напиши вакансию или предложение...">
         <button onclick="send()">ОТПРАВИТЬ</button>
     </div>
 </div>
 
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
 <script>
-let messages = JSON.parse(localStorage.getItem("jobs_chat")) || [];
+// 🔴 ВСТАВЬ СЮДА СВОЙ CONFIG
+const firebaseConfig = {
+  apiKey: "ТВОЙ_API_KEY",
+  authDomain: "ТВОЙ_PROJECT.firebaseapp.com",
+  databaseURL: "https://ТВОЙ_PROJECT-default-rtdb.firebaseio.com",
+  projectId: "ТВОЙ_PROJECT",
+};
 
-function render(){
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// слушаем чат
+db.ref("chat").on("child_added", snap => {
+    let data = snap.val();
     let box = document.getElementById("messages");
-    box.innerHTML = "";
-    messages.forEach(m=>{
-        box.innerHTML += `<div class="message">${m}</div>`;
-    });
-}
 
+    box.innerHTML += `<div class="message">${data.text}</div>`;
+    box.scrollTop = box.scrollHeight;
+});
+
+// отправка
 function send(){
     let input = document.getElementById("msg");
     if(input.value.trim() === "") return;
 
-    messages.push(input.value);
-    localStorage.setItem("jobs_chat", JSON.stringify(messages));
+    db.ref("chat").push({
+        text: input.value
+    });
 
     input.value = "";
-    render();
 }
-
-render();
 </script>
 
 </body>
