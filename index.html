@@ -1,49 +1,155 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>METAIMPERIYA JOBS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root { --green: #00ff9c; }
-        body { margin: 0; color: #fff; font-family: 'Rajdhani', sans-serif; background: #020202; overflow-x: hidden; }
-        body::before { content: ""; position: fixed; inset: 0; background-image: linear-gradient(rgba(0,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,255,0.06) 1px, transparent 1px); background-size: 40px 40px; z-index: -1; }
-        header { text-align: center; padding: 50px 20px; border-bottom: 1px solid rgba(0,255,156,0.3); backdrop-filter: blur(10px); }
-        h1 { font-family: 'Orbitron', sans-serif; font-size: 3.5rem; letter-spacing: 8px; color: var(--green); margin: 0; text-shadow: 0 0 15px var(--green); animation: flicker 3s infinite; }
-        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
-        .main { background: rgba(10,10,20,0.9); border-radius: 20px; padding: 30px; border: 1px solid rgba(0,229,255,0.2); box-shadow: 0 0 20px rgba(0,229,255,0.1); }
-        .preview { position: relative; border-radius: 15px; overflow: hidden; margin-bottom: 30px; border: 1px solid rgba(0,229,255,0.3); }
-        .preview img { width: 100%; display: block; }
-        .jobs-header { border-left: 4px solid var(--green); padding-left: 20px; margin-bottom: 25px; }
-        .widget { background: rgba(5,10,20,0.95); border-radius: 15px; padding: 15px; border: 1px solid rgba(0,255,156,0.2); min-height: 500px; }
-        @keyframes flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>METAIMPERIYA JOBS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root { --green:#00ff9c; }
+
+body{
+    margin:0;
+    color:#fff;
+    font-family:'Rajdhani',sans-serif;
+    background:#020202;
+    overflow-x:hidden;
+}
+
+/* сетка */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(0,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,255,0.06) 1px, transparent 1px);
+    background-size:40px 40px;
+    z-index:-1;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    border-bottom:1px solid rgba(0,255,156,0.3);
+    backdrop-filter:blur(10px);
+}
+
+h1{
+    font-family:'Orbitron',sans-serif;
+    font-size:3.5rem;
+    letter-spacing:8px;
+    color:var(--green);
+    margin:0;
+    text-shadow:0 0 15px var(--green);
+    animation:flicker 3s infinite;
+}
+
+.tagline{
+    color:#888;
+    letter-spacing:3px;
+}
+
+.container{
+    max-width:1100px;
+    margin:40px auto;
+    padding:0 20px;
+}
+
+.main{
+    background:rgba(10,10,20,0.9);
+    border-radius:20px;
+    padding:30px;
+    border:1px solid rgba(0,229,255,0.2);
+    box-shadow:0 0 20px rgba(0,229,255,0.1);
+}
+
+/* картинка */
+.preview{
+    position:relative;
+    border-radius:15px;
+    overflow:hidden;
+    margin-bottom:30px;
+    border:1px solid rgba(0,229,255,0.3);
+}
+
+.preview img{
+    width:100%;
+    display:block;
+}
+
+/* заголовок */
+.jobs-header{
+    border-left:4px solid var(--green);
+    padding-left:20px;
+    margin-bottom:25px;
+}
+
+.jobs-header h2{
+    margin:0;
+}
+
+/* телеграм комменты */
+.widget{
+    background:rgba(5,10,20,0.95);
+    border-radius:15px;
+    padding:15px;
+    border:1px solid rgba(0,255,156,0.2);
+    min-height:500px;
+}
+
+footer{
+    text-align:center;
+    padding:40px;
+    color:#444;
+}
+
+@keyframes flicker{
+    0%,100%{opacity:1;}
+    50%{opacity:0.8;}
+}
+</style>
 </head>
+
 <body>
-    <header>
-        <h1>METAIMPERIYA</h1>
-        <div style="color:#888; letter-spacing:3px;">GLOBAL JOB NETWORK</div>
-    </header>
-    <div class="container">
-        <div class="main">
-            <div class="preview">
-                <img src="preview.jpg" alt="Preview">
-            </div>
-            <div class="jobs-header">
-                <h2>LIVE JOB FEED</h2>
-                <p>Работа и сотрудники в реальном времени через Telegram.</p>
-            </div>
-            <div class="widget">
-                <script async src="https://comments.app/js/widget.js?3" 
-                    data-comments-app-website="HseBrS39" 
-                    data-limit="50" 
-                    data-color="00ff9c" 
-                    data-dark="1">
-                </script>
-            </div>
+
+<header>
+    <h1>METAIMPERIYA</h1>
+    <div class="tagline">GLOBAL JOB NETWORK</div>
+</header>
+
+<div class="container">
+    <div class="main">
+
+        <!-- КАРТИНКА -->
+        <div class="preview">
+            <img src="preview.png" alt="Preview">
         </div>
+
+        <!-- ЗАГОЛОВОК -->
+        <div class="jobs-header">
+            <h2>LIVE JOB FEED</h2>
+            <p>Работа и сотрудники в реальном времени через Telegram.</p>
+        </div>
+
+        <!-- КОММЕНТАРИИ TELEGRAM -->
+        <div class="widget">
+            <script async src="https://comments.app/js/widget.js?3"
+                data-comments-app-website="HseBrS39"
+                data-limit="5"
+                data-color="00ff9c"
+                data-dark="1">
+            </script>
+        </div>
+
     </div>
-    <footer style="text-align:center; padding:40px; color:#444;">METAIMPERIYA JOBS © 2026</footer>
+</div>
+
+<footer>
+METAIMPERIYA JOBS © 2026
+</footer>
+
 </body>
 </html>
