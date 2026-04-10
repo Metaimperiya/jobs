@@ -4,113 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>METAIMPERIYA JOBS</title>
+    
+    <link rel="canonical" href="https://jobs-phi-two.vercel.app">
+
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --green: #00ff9c; --cyan: #00e5ff; }
-        body { 
-            margin: 0; 
-            color: #fff; 
-            font-family: 'Rajdhani', sans-serif; 
-            background: #020202; 
-            overflow-x: hidden; 
-        }
-        /* Сетка на фоне */
+        :root { --green: #00ff9c; }
+        body { margin: 0; color: #fff; font-family: 'Rajdhani', sans-serif; background: #020202; overflow-x: hidden; }
         body::before { 
-            content: ""; 
-            position: fixed; 
-            inset: 0; 
+            content: ""; position: fixed; inset: 0; 
             background-image: linear-gradient(rgba(0,255,156,0.05) 1px, transparent 1px), 
                               linear-gradient(90deg, rgba(0,255,156,0.05) 1px, transparent 1px); 
-            background-size: 30px 30px; 
-            z-index: -1; 
+            background-size: 30px 30px; z-index: -1; 
         }
-        header { 
-            text-align: center; 
-            padding: 40px 20px; 
-            border-bottom: 2px solid var(--green); 
-            background: rgba(0,0,0,0.8);
-            box-shadow: 0 0 20px rgba(0,255,156,0.2);
-        }
-        h1 { 
-            font-family: 'Orbitron', sans-serif; 
-            font-size: clamp(2rem, 8vw, 3.5rem); 
-            letter-spacing: 5px; 
-            color: var(--green); 
-            margin: 0; 
-            text-shadow: 0 0 15px var(--green); 
-        }
-        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
-        .main { 
-            background: rgba(10,10,20,0.95); 
-            border-radius: 20px; 
-            padding: 25px; 
-            border: 1px solid rgba(0,255,156,0.3); 
-            box-shadow: 0 0 30px rgba(0,0,0,1);
-        }
-        .preview img { 
-            width: 100%; 
+        header { text-align: center; padding: 30px; border-bottom: 2px solid var(--green); background: rgba(0,0,0,0.9); }
+        h1 { font-family: 'Orbitron'; font-size: 2.5rem; color: var(--green); text-shadow: 0 0 10px var(--green); margin: 0; }
+        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
+        .main { background: rgba(10,10,20,0.95); border-radius: 20px; padding: 20px; border: 1px solid rgba(0,255,156,0.3); box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+        
+        .tg-window { 
+            background: #111; 
             border-radius: 15px; 
-            margin-bottom: 25px; 
-            border: 1px solid var(--green); 
-            box-shadow: 0 0 15px rgba(0,255,156,0.2);
+            overflow: hidden; 
+            min-height: 500px; 
+            border: 2px solid var(--green);
+            padding: 10px;
         }
-        .jobs-header { 
-            border-left: 5px solid var(--green); 
-            padding-left: 20px; 
-            margin-bottom: 20px; 
+        .btn-join {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 15px;
+            background: var(--green);
+            color: #000;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 10px;
+            font-family: 'Orbitron';
+            transition: 0.3s;
+            box-sizing: border-box;
         }
-        .jobs-header h2 { 
-            font-family: 'Orbitron'; 
-            font-size: 1.8rem; 
-            margin: 0; 
-            color: var(--cyan);
-        }
-        /* Контейнер чата */
-        .chat-container { 
-            background: #000; 
-            border-radius: 15px; 
-            padding: 5px; 
-            border: 1px solid var(--green);
-            overflow: hidden;
-            box-shadow: inset 0 0 10px rgba(0,255,156,0.2);
-        }
-        footer { text-align: center; padding: 30px; color: #444; font-size: 0.9rem; letter-spacing: 2px; }
+        .btn-join:hover { background: #fff; box-shadow: 0 0 20px var(--green); color: #000; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>METAIMPERIYA</h1>
-    <div style="color: #888; letter-spacing: 3px; font-weight: 600;">GLOBAL RECORDS NETWORK</div>
 </header>
 
 <div class="container">
     <div class="main">
-        <div class="preview">
-            <img src="preview.png" alt="METAIMPERIYA PREVIEW">
+        <div style="margin-bottom: 15px; border-left: 4px solid var(--green); padding-left: 15px;">
+            <h2 style="margin:0; font-family:'Orbitron'; font-size: 1.2rem; color: var(--green);">SMM TERMINAL</h2>
+            <p style="color:#aaa; font-size: 0.9rem;">Общайся через Telegram прямо на сайте.</p>
         </div>
 
-        <div class="jobs-header">
-            <h2>LIVE CHAT FEED</h2>
-            <p style="color: #ccc;">Пиши вакансии, ищи сотрудников — мгновенно и без регистрации.</p>
+        <div class="tg-window">
+            <script async src="https://telegram.org/js/telegram-widget.js?22" 
+                data-telegram-discussion="SimsCreator" 
+                data-comments-limit="15" 
+                data-color="00FF9C" 
+                data-dark="1">
+            </script>
         </div>
 
-        <div class="chat-container">
-            <iframe src="https://www5.cbox.ws/box/?boxid=962383&boxtag=At9RiE" 
-                width="100%" 
-                height="500" 
-                allowtransparency="yes" 
-                allow="autoplay" 
-                frameborder="0" 
-                marginheight="0" 
-                marginwidth="0" 
-                scrolling="auto">
-            </iframe>
-        </div>
+        <a href="https://t.me/SimsCreator" target="_blank" class="btn-join">ЗАЙТИ В КАНАЛ</a>
     </div>
 </div>
 
-<footer>YOUR FUTURE STARTS HERE | 2026</footer>
+<footer style="text-align:center; padding:20px; color:#444; font-size: 0.8rem;">
+    METAIMPERIYA JOBS © 2026
+</footer>
 
 </body>
 </html>
