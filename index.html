@@ -2,111 +2,94 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>METAIMPERIYA | SimsCreator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>METAIMPERIYA | Terminal</title>
+    <link rel="canonical" href="https://jobs-phi-two.vercel.app">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root { --accent: #F646A4; --bg: #020202; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; color: #fff; font-family: 'Rajdhani', sans-serif; background: var(--bg); overflow-x: hidden; }
+        
+        body::before { 
+            content: ""; position: fixed; inset: 0; 
+            background-image: linear-gradient(rgba(246,70,164,0.05) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(246,70,164,0.05) 1px, transparent 1px); 
+            background-size: 20px 20px; z-index: -1; 
         }
 
-        body {
-            background: #020202;
-            font-family: 'Rajdhani', sans-serif;
-            color: white;
-        }
-
-        /* Облако */
         #cloud-container {
             width: 100%;
-            height: 460px;
+            height: 35vh;
             position: relative;
-            background: radial-gradient(circle at center, rgba(246,70,164,0.12) 0%, black 85%);
-            cursor: grab;
+            background: radial-gradient(circle, rgba(246,70,164,0.1) 0%, rgba(0,0,0,0) 70%);
             overflow: hidden;
         }
-
-        #cloud {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
+        #cloud { position: absolute; width: 100%; height: 100%; }
 
         .tag {
             position: absolute;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: bold;
-            white-space: nowrap;
-            background: rgba(0,0,0,0.4);
-            padding: 4px 12px;
-            border-radius: 40px;
             text-decoration: none;
-            transition: all 0.12s;
+            text-shadow: 0 0 8px currentColor;
+            white-space: nowrap;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
         }
 
-        .tag:hover {
-            transform: translate(-50%, -50%) scale(2.5) !important;
-            color: white !important;
-            z-index: 2000;
-        }
+        header { text-align: center; padding: 15px 0; }
+        h1 { font-family: 'Orbitron'; font-size: 1.8rem; color: var(--accent); margin: 0; text-shadow: 0 0 10px var(--accent); letter-spacing: 2px; }
 
-        header {
-            text-align: center;
-            padding: 20px;
-        }
-
-        h1 {
-            font-family: 'Orbitron';
-            font-size: 2.5rem;
-            color: #F646A4;
-        }
-
-        /* ГЛАВНЫЙ ФИКС — контейнер прибит к центру, виджет не вылезает */
-        .container {
-            width: 100%;
-            max-width: 100%;
-            padding: 0 15px;
-            margin: 30px auto 50px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .tg-window {
-            width: 100%;
-            max-width: 100%;
-            background: #03050a;
-            border-radius: 28px;
-            border: 1px solid rgba(246,70,164,0.35);
-            overflow-x: hidden;
+        .container { width: 100%; max-width: 600px; margin: 0 auto; padding: 0 10px; }
+        
+        .main-card { 
+            background: rgba(10,10,20,0.95); 
+            border-radius: 15px; 
+            padding: 10px; 
+            border: 1px solid rgba(246,70,164,0.3);
             position: relative;
+            overflow: hidden;
         }
 
-        /* Принудительное обрезание всего, что вылезает */
-        .tg-window > div,
-        .tg-window iframe {
-            max-width: 100% !important;
-            width: 100% !important;
-            overflow-x: hidden !important;
+        .tg-window { 
+            background: #000; 
+            border-radius: 10px; 
+            min-height: 480px; 
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Заглушка на самолётик */
-        .telegram-blocker {
+        /* ЗАГЛУШКА-ССЫЛКА (ВЕРХ) */
+        .tg-link-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            z-index: 999;
+            height: 65px; 
+            z-index: 100;
             background: transparent;
+            display: block;
         }
 
-        @media (max-width: 700px) {
-            #cloud-container { height: 380px; }
-            .tag { font-size: 12px; padding: 2px 8px; }
-            h1 { font-size: 1.8rem; }
-            .container { padding: 0 10px; }
+        /* ПОДНЯТЫЙ ПОДВАЛ (НИЗ) */
+        .footer-shroud {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 65px; /* ЕЩЁ ВЫШЕ, ЧТОБЫ ЗАКРЫТЬ ВСЁ ГОВНО */
+            background: #05050a;
+            border-top: 1px solid var(--accent);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron';
+            font-size: 0.75rem;
+            color: var(--accent);
+            text-shadow: 0 0 5px var(--accent);
+            letter-spacing: 2px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
         }
     </style>
 </head>
@@ -121,131 +104,94 @@
 </header>
 
 <div class="container">
-    <div class="tg-window" id="tgBlock" style="position:relative;">
-        <!-- Телеграм виджет с принудительной шириной 100% -->
-        <script async src="https://telegram.org/js/telegram-widget.js?23"
-                data-telegram-discussion="SimsCreator/2"
-                data-comments-limit="5"
-                data-color="F646A4"
-                data-dark="1"
-                data-width="100%">
-        </script>
-        <!-- Заглушка — клик не работает -->
-        <div class="telegram-blocker" id="tgBlocker"></div>
+    <div class="main-card">
+        <div class="tg-window">
+            
+            <a href="https://t.me/SimsCreator/2" target="_blank" class="tg-link-overlay"></a>
+            
+            <script async src="https://telegram.org/js/telegram-widget.js?23"
+                    data-telegram-discussion="SimsCreator/2"
+                    data-comments-limit="5"
+                    data-color="F646A4"
+                    data-dark="1">
+            </script>
+
+            <div class="footer-shroud">ACCESS GRANTED: SimsCreator</div>
+        </div>
     </div>
 </div>
 
+<div style="height: 60px;"></div>
+
 <script>
-    // Облако тегов (упрощённо, но работает)
-    (function(){
-        const tags = [
-            {text:"НЯНЯ", color:"#FF6B6B", size:24},{text:"БЕРЛИН", color:"#FFD93D", size:22},
-            {text:"ГУВЕРНАНТКА", color:"#C084FC", size:26},{text:"МЮНХЕН", color:"#4DF8FF", size:28},
-            {text:"ГАМБУРГ", color:"#6EE7B7", size:20},{text:"3D ASSETS", color:"#F646A4", size:25},
-            {text:"SMM", color:"#FBBF24", size:22},{text:"НЮРНБЕРГ", color:"#A78BFA", size:26},
-            {text:"GPT", color:"#34D399", size:23},{text:"METAIMPERIYA", color:"#F646A4", size:32},
-            {text:"SIMSCREATOR", color:"#FF8C42", size:27}
-        ];
-        const container = document.getElementById('cloud');
-        const zone = document.getElementById('cloud-container');
-        let items=[], pts=[], rad=200, angX=0.2, angY=0, tX=0.2, tY=0, drag=false, lastX, lastY, auto=true;
-        
-        function updCenter(){
-            let r=zone.getBoundingClientRect();
-            window.cX = r.left + r.width/2;
-            window.cY = r.top + r.height/2;
+    const config = {
+        tags: [
+            { text: "НЯНЯ", color: "#4267B2", size: 16 },
+            { text: "БЕРЛИН", color: "#34A853", size: 14 },
+            { text: "ГУВЕРНАНТКА", color: "#FF5733", size: 18 },
+            { text: "МЮНХЕН", color: "#00FFFF", size: 20 },
+            { text: "ГАМБУРГ", color: "#2965F1", size: 14 },
+            { text: "3D ASSETS", color: "#F646A4", size: 20 },
+            { text: "НЮРНБЕРГ", color: "#8A2BE2", size: 18 },
+            { text: "GPT", color: "#10A37F", size: 16 },
+            { text: "METAIMPERIYA", color: "#F646A4", size: 22 }
+        ],
+        radius: window.innerWidth < 500 ? 110 : 160,
+        rotationSpeed: 0.0008,
+        center: { x: window.innerWidth / 2, y: 150 },
+        mouseSensitivity: 0.0001
+    };
+
+    const container = document.getElementById('cloud');
+    let tags = [];
+    let angleX = 0, angleY = 0, mouseX = 0, mouseY = 0;
+    let isInteracting = false;
+
+    config.tags.forEach((tag, i) => {
+        const element = document.createElement('div');
+        element.className = 'tag';
+        element.textContent = tag.text;
+        element.style.color = tag.color;
+        element.style.fontSize = `${tag.size}px`;
+        const phi = Math.acos(-1 + (2 * i) / config.tags.length);
+        const theta = Math.sqrt(config.tags.length * Math.PI) * phi;
+        element.dataset.x = config.radius * Math.cos(theta) * Math.sin(phi);
+        element.dataset.y = config.radius * Math.sin(theta) * Math.sin(phi);
+        element.dataset.z = config.radius * Math.cos(phi);
+        container.appendChild(element);
+        tags.push(element);
+    });
+
+    function animate() {
+        if (isInteracting) {
+            angleY += (mouseX - angleY) * config.mouseSensitivity;
+            angleX += (mouseY - angleX) * config.mouseSensitivity;
+        } else {
+            angleY += config.rotationSpeed;
         }
-        function build(){
-            container.innerHTML=''; items=[]; pts=[];
-            let cnt=tags.length, phi=Math.PI*(3-Math.sqrt(5));
-            let w=innerWidth;
-            rad = w<500?150: w<800?180:210;
-            for(let i=0;i<cnt;i++){
-                let t=tags[i];
-                let a=document.createElement('a');
-                a.className='tag';
-                a.href='javascript:void(0)';
-                a.textContent=t.text;
-                a.style.color=t.color;
-                a.style.fontSize=t.size+'px';
-                let y=1-(i/(cnt-1))*2;
-                let rY=Math.sqrt(1-y*y);
-                let th=i*phi*2;
-                let x=rad*Math.cos(th)*rY;
-                let z=rad*Math.sin(th)*rY;
-                let yp=rad*y;
-                pts.push({x:x,y:yp,z:z});
-                container.appendChild(a);
-                items.push(a);
-            }
-        }
-        function render(){
-            if(!window.cX) return;
-            for(let i=0;i<items.length;i++){
-                let p=pts[i];
-                let x=p.x, y=p.y, z=p.z;
-                let cy=Math.cos(angY), sy=Math.sin(angY);
-                let x1=x*cy - z*sy;
-                let z1=x*sy + z*cy;
-                let cx=Math.cos(angX), sx=Math.sin(angX);
-                let y2=y*cx - z1*sx;
-                let z2=y*sx + z1*cx;
-                let s=rad/(rad+z2+80);
-                let op=0.4+(z2+rad)/(rad*1.5);
-                items[i].style.left=(window.cX + x1*s)+'px';
-                items[i].style.top=(window.cY + y2*s)+'px';
-                items[i].style.transform=`translate(-50%,-50%) scale(${s})`;
-                items[i].style.opacity=Math.min(0.95,Math.max(0.3,op));
-            }
-        }
-        function anim(){
-            angY+=(tY-angY)*0.08;
-            angX+=(tX-angX)*0.08;
-            if(auto && !drag) tY+=0.005;
-            render();
-            requestAnimationFrame(anim);
-        }
-        function start(e){
-            drag=true; auto=false;
-            let cx=e.clientX||(e.touches?e.touches[0].clientX:0);
-            let cy=e.clientY||(e.touches?e.touches[0].clientY:0);
-            lastX=cx; lastY=cy;
-            zone.style.cursor='grabbing';
-            if(e.touches) e.preventDefault();
-        }
-        function move(e){
-            if(!drag) return;
-            let cx=e.clientX||(e.touches?e.touches[0].clientX:0);
-            let cy=e.clientY||(e.touches?e.touches[0].clientY:0);
-            tY+=(cx-lastX)*0.007;
-            tX+=(cy-lastY)*0.007;
-            tX=Math.min(1.2,Math.max(-1.2,tX));
-            lastX=cx; lastY=cy;
-            if(e.touches) e.preventDefault();
-        }
-        function end(){ drag=false; auto=true; zone.style.cursor='grab'; }
-        
-        zone.addEventListener('mousedown',start);
-        window.addEventListener('mousemove',move);
-        window.addEventListener('mouseup',end);
-        zone.addEventListener('touchstart',start,{passive:false});
-        window.addEventListener('touchmove',move,{passive:false});
-        window.addEventListener('touchend',end);
-        window.addEventListener('resize',()=>{updCenter(); build(); render();});
-        window.addEventListener('scroll',()=>{updCenter(); render();});
-        
-        // Заглушка для телеграма
-        let blocker = document.getElementById('tgBlocker');
-        if(blocker){
-            blocker.onclick = (e) => { e.preventDefault(); e.stopPropagation(); return false; };
-            blocker.ontouchstart = (e) => { e.preventDefault(); e.stopPropagation(); };
-        }
-        
-        updCenter();
-        build();
-        render();
-        anim();
-    })();
+        tags.forEach(tag => {
+            const x = parseFloat(tag.dataset.x), y = parseFloat(tag.dataset.y), z = parseFloat(tag.dataset.z);
+            const cosX = Math.cos(angleX), sinX = Math.sin(angleX), cosY = Math.cos(angleY), sinY = Math.sin(angleY);
+            const x1 = x * cosY - z * sinY, z1 = x * sinY + z * cosY;
+            const y1 = y * cosX - z1 * sinX, z2 = y * sinX + z1 * cosX;
+            const scale = config.radius / (config.radius + z2 + 80);
+            tag.style.left = `${config.center.x + x1 * scale}px`;
+            tag.style.top = `${config.center.y + y1 * scale}px`;
+            tag.style.transform = `translate(-50%, -50%) scale(${scale})`;
+            tag.style.opacity = 0.3 + scale;
+        });
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX - config.center.x);
+        mouseY = (e.clientY - config.center.y);
+    });
+    container.addEventListener('mouseenter', () => isInteracting = true);
+    container.addEventListener('mouseleave', () => isInteracting = false);
 </script>
+
 </body>
 </html>
