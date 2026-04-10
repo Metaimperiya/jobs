@@ -12,29 +12,13 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --accent: #F646A4;
-        }
-
         body {
             background: #020202;
             font-family: 'Rajdhani', sans-serif;
-            overflow-x: hidden;
             color: white;
-            min-height: 100vh;
         }
 
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background-image: linear-gradient(rgba(246,70,164,0.07) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(246,70,164,0.07) 1px, transparent 1px);
-            background-size: 30px 30px;
-            pointer-events: none;
-            z-index: -1;
-        }
-
+        /* Облако */
         #cloud-container {
             width: 100%;
             height: 460px;
@@ -42,98 +26,73 @@
             background: radial-gradient(circle at center, rgba(246,70,164,0.12) 0%, black 85%);
             cursor: grab;
             overflow: hidden;
-            border-bottom: 1px solid rgba(246,70,164,0.2);
-        }
-
-        #cloud-container:active {
-            cursor: grabbing;
         }
 
         #cloud {
             position: absolute;
             width: 100%;
             height: 100%;
-            top: 0;
-            left: 0;
         }
 
         .tag {
             position: absolute;
-            text-decoration: none;
             font-family: 'Orbitron', sans-serif;
             font-weight: bold;
-            text-transform: uppercase;
             white-space: nowrap;
-            transition: all 0.12s ease-out;
-            text-shadow: 0 0 5px currentColor;
-            will-change: transform, left, top;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0,0,0,0.4);
             padding: 4px 12px;
             border-radius: 40px;
-            pointer-events: auto;
-            z-index: 10;
-            backdrop-filter: blur(2px);
+            text-decoration: none;
+            transition: all 0.12s;
         }
 
         .tag:hover {
-            transform: translate(-50%, -50%) scale(2.8) !important;
+            transform: translate(-50%, -50%) scale(2.5) !important;
             color: white !important;
-            text-shadow: 0 0 20px currentColor;
-            z-index: 2000 !important;
-            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
         }
 
         header {
             text-align: center;
-            padding: 20px 10px 10px;
+            padding: 20px;
         }
 
         h1 {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Orbitron';
             font-size: 2.5rem;
-            background: linear-gradient(135deg, #F646A4, #FFB347);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 15px rgba(246,70,164,0.5);
-            letter-spacing: 2px;
-        }
-
-        .sub {
             color: #F646A4;
-            opacity: 0.7;
-            font-size: 0.85rem;
-            margin-top: 5px;
         }
 
-        /* ГЛАВНОЕ — контейнер с виджетом, который НЕ ВЫЛАЗИТ ЗА ЭКРАН */
+        /* ГЛАВНЫЙ ФИКС — контейнер прибит к центру, виджет не вылезает */
         .container {
-            max-width: 100%;
-            margin: 30px auto 50px;
-            padding: 0 16px;
-        }
-
-        /* Виджет — теперь всегда по центру, не уёбывает вправо */
-        .tg-window {
-            background: #03050a;
-            border-radius: 28px;
-            min-height: 500px;
-            border: 1px solid rgba(246,70,164,0.35);
-            overflow: hidden;
-            position: relative;
-            transition: all 0.2s;
             width: 100%;
             max-width: 100%;
-            margin: 0 auto;
+            padding: 0 15px;
+            margin: 30px auto 50px;
+            display: flex;
+            justify-content: center;
         }
 
-        .tg-window:hover {
-            border-color: rgba(246,70,164,0.7);
-            box-shadow: 0 0 20px rgba(246,70,164,0.15);
+        .tg-window {
+            width: 100%;
+            max-width: 100%;
+            background: #03050a;
+            border-radius: 28px;
+            border: 1px solid rgba(246,70,164,0.35);
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* Заглушка на самолетик — НИКУДА НЕ ПЕРЕХОДИТ */
-        .telegram-stupid-blocker {
+        /* Принудительное обрезание всего, что вылезает */
+        .tg-window > div,
+        .tg-window iframe {
+            max-width: 100% !important;
+            width: 100% !important;
+            overflow-x: hidden !important;
+        }
+
+        /* Заглушка на самолётик */
+        .telegram-blocker {
             position: absolute;
             top: 0;
             left: 0;
@@ -141,43 +100,13 @@
             height: 100%;
             z-index: 999;
             background: transparent;
-            cursor: pointer;
-        }
-
-        /* Сам виджет внутри — не вылазит */
-        #originalTelegramWidget {
-            width: 100%;
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-
-        /* Телеграмовский iframe (если он там) — не шире экрана */
-        iframe {
-            max-width: 100% !important;
-            width: 100% !important;
         }
 
         @media (max-width: 700px) {
             #cloud-container { height: 380px; }
-            .tag { font-size: 13px; padding: 2px 8px; }
-            .tag:hover { transform: translate(-50%, -50%) scale(2.2) !important; }
+            .tag { font-size: 12px; padding: 2px 8px; }
             h1 { font-size: 1.8rem; }
-            .container { padding: 0 12px; }
-        }
-
-        @media (max-width: 480px) {
-            #cloud-container { height: 320px; }
-            .tag { font-size: 11px; padding: 2px 6px; }
             .container { padding: 0 10px; }
-            .tg-window { border-radius: 20px; min-height: 450px; }
-        }
-
-        /* Для телевизоров и больших экранов — ограничиваем, но центр */
-        @media (min-width: 1200px) {
-            .container {
-                max-width: 1000px;
-                margin: 30px auto;
-            }
         }
     </style>
 </head>
@@ -189,180 +118,133 @@
 
 <header>
     <h1>METAIMPERIYA</h1>
-    <div class="sub">SIMSCREATOR • 3D INTERACTIVE NEBULA</div>
 </header>
 
 <div class="container">
-    <div class="tg-window" id="tgBlockContainer">
-        <div id="originalTelegramWidget" style="width:100%; max-width:100%;">
-            <script async src="https://telegram.org/js/telegram-widget.js?23"
-                    data-telegram-discussion="SimsCreator/2"
-                    data-comments-limit="5"
-                    data-color="F646A4"
-                    data-dark="1"
-                    data-width="100%">
-            </script>
-        </div>
-        <div id="telegramBlocker" class="telegram-stupid-blocker"></div>
+    <div class="tg-window" id="tgBlock" style="position:relative;">
+        <!-- Телеграм виджет с принудительной шириной 100% -->
+        <script async src="https://telegram.org/js/telegram-widget.js?23"
+                data-telegram-discussion="SimsCreator/2"
+                data-comments-limit="5"
+                data-color="F646A4"
+                data-dark="1"
+                data-width="100%">
+        </script>
+        <!-- Заглушка — клик не работает -->
+        <div class="telegram-blocker" id="tgBlocker"></div>
     </div>
 </div>
 
 <script>
-    (function() {
-        const tagsArray = [
-            { text: "НЯНЯ", color: "#FF6B6B", size: 24, url: "#" },
-            { text: "БЕРЛИН", color: "#FFD93D", size: 22, url: "#" },
-            { text: "ГУВЕРНАНТКА", color: "#C084FC", size: 26, url: "#" },
-            { text: "МЮНХЕН", color: "#4DF8FF", size: 28, url: "#" },
-            { text: "ГАМБУРГ", color: "#6EE7B7", size: 20, url: "#" },
-            { text: "3D ASSETS", color: "#F646A4", size: 25, url: "#" },
-            { text: "SMM", color: "#FBBF24", size: 22, url: "#" },
-            { text: "НЮРНБЕРГ", color: "#A78BFA", size: 26, url: "#" },
-            { text: "GPT", color: "#34D399", size: 23, url: "#" },
-            { text: "METAIMPERIYA", color: "#F646A4", size: 32, url: "#" },
-            { text: "SIMSCREATOR", color: "#FF8C42", size: 27, url: "#" },
-            { text: "ГУРУ", color: "#60A5FA", size: 22, url: "#" },
-            { text: "FRANKFURT", color: "#F472B6", size: 21, url: "#" },
-            { text: "AI VISION", color: "#2DD4BF", size: 24, url: "#" },
-            { text: "METAVERSE", color: "#E879F9", size: 26, url: "#" }
+    // Облако тегов (упрощённо, но работает)
+    (function(){
+        const tags = [
+            {text:"НЯНЯ", color:"#FF6B6B", size:24},{text:"БЕРЛИН", color:"#FFD93D", size:22},
+            {text:"ГУВЕРНАНТКА", color:"#C084FC", size:26},{text:"МЮНХЕН", color:"#4DF8FF", size:28},
+            {text:"ГАМБУРГ", color:"#6EE7B7", size:20},{text:"3D ASSETS", color:"#F646A4", size:25},
+            {text:"SMM", color:"#FBBF24", size:22},{text:"НЮРНБЕРГ", color:"#A78BFA", size:26},
+            {text:"GPT", color:"#34D399", size:23},{text:"METAIMPERIYA", color:"#F646A4", size:32},
+            {text:"SIMSCREATOR", color:"#FF8C42", size:27}
         ];
-
         const container = document.getElementById('cloud');
-        const cloudZone = document.getElementById('cloud-container');
+        const zone = document.getElementById('cloud-container');
+        let items=[], pts=[], rad=200, angX=0.2, angY=0, tX=0.2, tY=0, drag=false, lastX, lastY, auto=true;
         
-        let items = [];
-        let points3d = [];
-        let radius = 210;
-        let centerX = 0;
-        let centerY = 0;
-        let angleY = 0;
-        let angleX = 0.2;
-        let targetAngleY = 0;
-        let targetAngleX = 0.2;
-        let isDragging = false;
-        let lastMouseX = 0, lastMouseY = 0;
-        let autoRotate = true;
-        let autoSpeed = 0.005;
-        
-        function updateCenter() {
-            const rect = cloudZone.getBoundingClientRect();
-            centerX = rect.left + rect.width / 2;
-            centerY = rect.top + rect.height / 2;
+        function updCenter(){
+            let r=zone.getBoundingClientRect();
+            window.cX = r.left + r.width/2;
+            window.cY = r.top + r.height/2;
         }
-        
-        function buildCloud() {
-            container.innerHTML = "";
-            items = [];
-            points3d = [];
-            const count = tagsArray.length;
-            const phiGolden = Math.PI * (3 - Math.sqrt(5));
-            
-            const w = window.innerWidth;
-            if (w < 500) radius = 150;
-            else if (w < 800) radius = 180;
-            else radius = 210;
-            
-            for (let i = 0; i < count; i++) {
-                const tag = tagsArray[i];
-                const el = document.createElement('a');
-                el.className = 'tag';
-                el.href = "javascript:void(0);";
-                el.textContent = tag.text;
-                el.style.color = tag.color;
-                el.style.fontSize = `${tag.size}px`;
-                
-                const y = 1 - (i / (count - 1)) * 2;
-                const radiusAtY = Math.sqrt(1 - y*y);
-                const theta = i * phiGolden * 2;
-                
-                const x = radius * Math.cos(theta) * radiusAtY;
-                const z = radius * Math.sin(theta) * radiusAtY;
-                const yPos = radius * y;
-                
-                points3d.push({ x: x, y: yPos, z: z });
-                container.appendChild(el);
-                items.push(el);
+        function build(){
+            container.innerHTML=''; items=[]; pts=[];
+            let cnt=tags.length, phi=Math.PI*(3-Math.sqrt(5));
+            let w=innerWidth;
+            rad = w<500?150: w<800?180:210;
+            for(let i=0;i<cnt;i++){
+                let t=tags[i];
+                let a=document.createElement('a');
+                a.className='tag';
+                a.href='javascript:void(0)';
+                a.textContent=t.text;
+                a.style.color=t.color;
+                a.style.fontSize=t.size+'px';
+                let y=1-(i/(cnt-1))*2;
+                let rY=Math.sqrt(1-y*y);
+                let th=i*phi*2;
+                let x=rad*Math.cos(th)*rY;
+                let z=rad*Math.sin(th)*rY;
+                let yp=rad*y;
+                pts.push({x:x,y:yp,z:z});
+                container.appendChild(a);
+                items.push(a);
             }
         }
-        
-        function render() {
-            if (!centerX || !centerY) return;
-            for (let i = 0; i < items.length; i++) {
-                let p = points3d[i];
-                let x = p.x, y = p.y, z = p.z;
-                const cosY = Math.cos(angleY), sinY = Math.sin(angleY);
-                let x1 = x * cosY - z * sinY;
-                let z1 = x * sinY + z * cosY;
-                const cosX = Math.cos(angleX), sinX = Math.sin(angleX);
-                let y2 = y * cosX - z1 * sinX;
-                let z2 = y * sinX + z1 * cosX;
-                let x2 = x1;
-                const scale = radius / (radius + z2 + 80);
-                const opacity = 0.4 + (z2 + radius) / (radius * 1.5);
-                const el = items[i];
-                el.style.left = `${centerX + x2 * scale}px`;
-                el.style.top = `${centerY + y2 * scale}px`;
-                el.style.transform = `translate(-50%, -50%) scale(${scale})`;
-                el.style.opacity = Math.min(0.95, Math.max(0.3, opacity));
-                el.style.zIndex = Math.floor(scale * 200);
+        function render(){
+            if(!window.cX) return;
+            for(let i=0;i<items.length;i++){
+                let p=pts[i];
+                let x=p.x, y=p.y, z=p.z;
+                let cy=Math.cos(angY), sy=Math.sin(angY);
+                let x1=x*cy - z*sy;
+                let z1=x*sy + z*cy;
+                let cx=Math.cos(angX), sx=Math.sin(angX);
+                let y2=y*cx - z1*sx;
+                let z2=y*sx + z1*cx;
+                let s=rad/(rad+z2+80);
+                let op=0.4+(z2+rad)/(rad*1.5);
+                items[i].style.left=(window.cX + x1*s)+'px';
+                items[i].style.top=(window.cY + y2*s)+'px';
+                items[i].style.transform=`translate(-50%,-50%) scale(${s})`;
+                items[i].style.opacity=Math.min(0.95,Math.max(0.3,op));
             }
         }
-        
-        function animate() {
-            angleY += (targetAngleY - angleY) * 0.08;
-            angleX += (targetAngleX - angleX) * 0.08;
-            if (autoRotate && !isDragging) targetAngleY += autoSpeed;
+        function anim(){
+            angY+=(tY-angY)*0.08;
+            angX+=(tX-angX)*0.08;
+            if(auto && !drag) tY+=0.005;
             render();
-            requestAnimationFrame(animate);
+            requestAnimationFrame(anim);
+        }
+        function start(e){
+            drag=true; auto=false;
+            let cx=e.clientX||(e.touches?e.touches[0].clientX:0);
+            let cy=e.clientY||(e.touches?e.touches[0].clientY:0);
+            lastX=cx; lastY=cy;
+            zone.style.cursor='grabbing';
+            if(e.touches) e.preventDefault();
+        }
+        function move(e){
+            if(!drag) return;
+            let cx=e.clientX||(e.touches?e.touches[0].clientX:0);
+            let cy=e.clientY||(e.touches?e.touches[0].clientY:0);
+            tY+=(cx-lastX)*0.007;
+            tX+=(cy-lastY)*0.007;
+            tX=Math.min(1.2,Math.max(-1.2,tX));
+            lastX=cx; lastY=cy;
+            if(e.touches) e.preventDefault();
+        }
+        function end(){ drag=false; auto=true; zone.style.cursor='grab'; }
+        
+        zone.addEventListener('mousedown',start);
+        window.addEventListener('mousemove',move);
+        window.addEventListener('mouseup',end);
+        zone.addEventListener('touchstart',start,{passive:false});
+        window.addEventListener('touchmove',move,{passive:false});
+        window.addEventListener('touchend',end);
+        window.addEventListener('resize',()=>{updCenter(); build(); render();});
+        window.addEventListener('scroll',()=>{updCenter(); render();});
+        
+        // Заглушка для телеграма
+        let blocker = document.getElementById('tgBlocker');
+        if(blocker){
+            blocker.onclick = (e) => { e.preventDefault(); e.stopPropagation(); return false; };
+            blocker.ontouchstart = (e) => { e.preventDefault(); e.stopPropagation(); };
         }
         
-        function onDragStart(e) {
-            isDragging = true;
-            autoRotate = false;
-            let cx = e.clientX, cy = e.clientY;
-            if (e.touches) { cx = e.touches[0].clientX; cy = e.touches[0].clientY; e.preventDefault(); }
-            lastMouseX = cx; lastMouseY = cy;
-            cloudZone.style.cursor = 'grabbing';
-        }
-        
-        function onDragMove(e) {
-            if (!isDragging) return;
-            let cx = e.clientX, cy = e.clientY;
-            if (e.touches) { cx = e.touches[0].clientX; cy = e.touches[0].clientY; e.preventDefault(); }
-            targetAngleY += (cx - lastMouseX) * 0.007;
-            targetAngleX += (cy - lastMouseY) * 0.007;
-            targetAngleX = Math.min(1.2, Math.max(-1.2, targetAngleX));
-            lastMouseX = cx; lastMouseY = cy;
-        }
-        
-        function onDragEnd() { isDragging = false; autoRotate = true; cloudZone.style.cursor = 'grab'; }
-        
-        cloudZone.addEventListener('mousedown', onDragStart);
-        window.addEventListener('mousemove', onDragMove);
-        window.addEventListener('mouseup', onDragEnd);
-        cloudZone.addEventListener('touchstart', onDragStart, { passive: false });
-        window.addEventListener('touchmove', onDragMove, { passive: false });
-        window.addEventListener('touchend', onDragEnd);
-        
-        window.addEventListener('resize', () => { updateCenter(); buildCloud(); render(); });
-        window.addEventListener('scroll', () => { updateCenter(); render(); });
-        
-        // Заглушка — самолётик не кликается
-        const blocker = document.getElementById('telegramBlocker');
-        if (blocker) {
-            blocker.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); return false; });
-            blocker.addEventListener('touchstart', (e) => { e.preventDefault(); e.stopPropagation(); }, { passive: false });
-        }
-        
-        function init() {
-            updateCenter();
-            buildCloud();
-            targetAngleY = 0.4; angleY = 0.4;
-            targetAngleX = 0.2; angleX = 0.2;
-            render();
-            animate();
-        }
-        init();
+        updCenter();
+        build();
+        render();
+        anim();
     })();
 </script>
 </body>
