@@ -2,67 +2,125 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>METAIMPERIYA | SimsCreator</title>
-    <link rel="canonical" href="https://jobs-phi-two.vercel.app">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>METAIMPERIYA | SimsCreator — FIXED</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #F646A4; --bg: #020202; }
-        * { box-sizing: border-box; }
-        body { margin: 0; color: #fff; font-family: 'Rajdhani', sans-serif; background: var(--bg); overflow-x: hidden; cursor: default; }
-        
-        body::before { 
-            content: ""; position: fixed; inset: 0; 
-            background-image: linear-gradient(rgba(246,70,164,0.05) 1px, transparent 1px), 
-                              linear-gradient(90deg, rgba(246,70,164,0.05) 1px, transparent 1px); 
-            background-size: 30px 30px; z-index: -1; 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* Облако тегов - РАБОЧАЯ ЗОНА */
+        :root {
+            --accent: #F646A4;
+        }
+
+        body {
+            background: #020202;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            color: white;
+        }
+
+        /* Сетка как фон */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: linear-gradient(rgba(246,70,164,0.07) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(246,70,164,0.07) 1px, transparent 1px);
+            background-size: 30px 30px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
         #cloud-container {
             width: 100%;
-            height: 450px;
+            height: 460px;
             position: relative;
-            background: radial-gradient(circle, rgba(246,70,164,0.1) 0%, rgba(0,0,0,0) 70%);
+            background: radial-gradient(circle at center, rgba(246,70,164,0.15) 0%, black 80%);
+            cursor: grab;
             overflow: hidden;
-            cursor: move; /* Показываем, что можно крутить */
         }
-        #cloud { position: absolute; width: 100%; height: 100%; }
+
+        #cloud-container:active {
+            cursor: grabbing;
+        }
+
+        #cloud {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
 
         .tag {
             position: absolute;
             text-decoration: none;
-            transition: opacity 0.3s, transform 0.2s ease-out;
-            text-shadow: 0 0 8px currentColor;
-            white-space: nowrap;
-            will-change: transform, opacity;
-            font-weight: bold;
             font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
             text-transform: uppercase;
+            white-space: nowrap;
+            transition: all 0.15s ease-out;
+            text-shadow: 0 0 5px currentColor;
+            will-change: transform, left, top;
+            background: rgba(0,0,0,0.3);
+            padding: 2px 8px;
+            border-radius: 30px;
+            pointer-events: auto;
             z-index: 10;
         }
 
-        /* Твой интерактив при наведении */
+        /* Увеличение при наведении — как ты хотел */
         .tag:hover {
-            opacity: 1 !important;
+            transform: translate(-50%, -50%) scale(2.5) !important;
+            color: white !important;
             text-shadow: 0 0 20px currentColor;
-            transform: scale(2.5) !important; /* Увеличение как в твоем коде */
             z-index: 2000 !important;
-            color: #fff !important;
+            background: rgba(0,0,0,0.7);
         }
 
-        header { text-align: center; padding: 10px; }
-        h1 { font-family: 'Orbitron'; font-size: 2.2rem; color: var(--accent); margin: 0; text-shadow: 0 0 15px var(--accent); }
-
-        .container { max-width: 900px; margin: 0 auto 50px; padding: 0 15px; }
-        .main-card { 
-            background: rgba(10,10,20,0.9); 
-            border-radius: 20px; 
-            padding: 20px; 
-            border: 1px solid rgba(246,70,164,0.3); 
+        header {
+            text-align: center;
+            padding: 10px;
         }
-        
-        .tg-window { background: #000; border-radius: 15px; min-height: 500px; border: 1px solid rgba(246,70,164,0.2); }
+
+        h1 {
+            font-family: 'Orbitron';
+            font-size: 2.3rem;
+            color: var(--accent);
+            text-shadow: 0 0 12px var(--accent);
+            letter-spacing: 2px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto 50px;
+            padding: 0 16px;
+        }
+
+        .main-card {
+            background: rgba(10,10,20,0.9);
+            border-radius: 28px;
+            padding: 22px;
+            border: 1px solid rgba(246,70,164,0.4);
+            backdrop-filter: blur(4px);
+        }
+
+        .tg-window {
+            background: #000;
+            border-radius: 20px;
+            min-height: 500px;
+            border: 1px solid rgba(246,70,164,0.25);
+        }
+
+        @media (max-width: 700px) {
+            #cloud-container { height: 380px; }
+            .tag { font-size: 14px; }
+            .tag:hover { transform: translate(-50%, -50%) scale(2.2) !important; }
+        }
     </style>
 </head>
 <body>
@@ -89,91 +147,237 @@
 </div>
 
 <script>
-    const config = {
-        tags: [
-            { text: "НЯНЯ", color: "#4267B2", size: 22, url: "https://t.me/SimsCreator" },
-            { text: "БЕРЛИН", color: "#34A853", size: 18, url: "#" },
-            { text: "ГУВЕРНАНТКА", color: "#FF5733", size: 26, url: "#" },
-            { text: "МЮНХЕН", color: "#00FFFF", size: 28, url: "#" },
-            { text: "ГАМБУРГ", color: "#2965F1", size: 19, url: "#" },
-            { text: "3D ASSETS", color: "#F646A4", size: 24, url: "#" },
-            { text: "SMM", color: "#F0DB4F", size: 20, url: "#" },
-            { text: "НЮРНБЕРГ", color: "#8A2BE2", size: 26, url: "#" },
-            { text: "GPT", color: "#10A37F", size: 20, url: "#" },
-            { text: "METAIMPERIYA", color: "#F646A4", size: 30, url: "#" }
-        ],
-        radius: 200,
-        rotationSpeed: 0.0005,
-        center: { x: window.innerWidth / 2, y: 225 },
-        mouseSensitivity: 0.0002 // Твоя чувствительность
-    };
+    (function() {
+        // ------ ТЕГИ (твои, рабочие) ------
+        const tagsArray = [
+            { text: "НЯНЯ", color: "#FF6B6B", size: 24, url: "https://t.me/SimsCreator" },
+            { text: "БЕРЛИН", color: "#FFD93D", size: 22, url: "#" },
+            { text: "ГУВЕРНАНТКА", color: "#C084FC", size: 26, url: "#" },
+            { text: "МЮНХЕН", color: "#4DF8FF", size: 28, url: "#" },
+            { text: "ГАМБУРГ", color: "#6EE7B7", size: 20, url: "#" },
+            { text: "3D ASSETS", color: "#F646A4", size: 25, url: "#" },
+            { text: "SMM", color: "#FBBF24", size: 22, url: "#" },
+            { text: "НЮРНБЕРГ", color: "#A78BFA", size: 26, url: "#" },
+            { text: "GPT", color: "#34D399", size: 23, url: "#" },
+            { text: "METAIMPERIYA", color: "#F646A4", size: 32, url: "#" },
+            { text: "SIMSCREATOR", color: "#FF8C42", size: 27, url: "https://t.me/SimsCreator" },
+            { text: "ГУРУ", color: "#60A5FA", size: 22, url: "#" },
+            { text: "FRANKFURT", color: "#F472B6", size: 21, url: "#" }
+        ];
 
-    const container = document.getElementById('cloud');
-    let tags = [];
-    let angleX = 0; let angleY = 0;
-    let mouseX = 0; let mouseY = 0;
-    let isInteracting = false;
-
-    // Создаем теги как ссылки
-    config.tags.forEach((tag, i) => {
-        const element = document.createElement('a');
-        element.className = 'tag';
-        element.href = tag.url;
-        element.textContent = tag.text;
-        element.style.color = tag.color;
-        element.style.fontSize = `${tag.size}px`;
+        const container = document.getElementById('cloud');
+        const cloudZone = document.getElementById('cloud-container');
         
-        const phi = Math.acos(-1 + (2 * i) / config.tags.length);
-        const theta = Math.sqrt(config.tags.length * Math.PI) * phi;
-        element.dataset.x = config.radius * Math.cos(theta) * Math.sin(phi);
-        element.dataset.y = config.radius * Math.sin(theta) * Math.sin(phi);
-        element.dataset.z = config.radius * Math.cos(phi);
+        let items = [];          // DOM элементы
+        let points3d = [];       // {x, y, z}
         
-        container.appendChild(element);
-        tags.push(element);
-    });
-
-    function animate() {
-        if (isInteracting) {
-            angleY += (mouseX - angleY) * config.mouseSensitivity;
-            angleX += (mouseY - angleX) * config.mouseSensitivity;
-        } else {
-            angleY += config.rotationSpeed;
+        // Параметры сферы
+        let radius = 210;
+        let centerX = window.innerWidth / 2;
+        let centerY = cloudZone.clientHeight / 2;
+        
+        // Углы поворота
+        let angleY = 0;
+        let angleX = 0.2;
+        let targetAngleY = 0;
+        let targetAngleX = 0.2;
+        
+        let isDragging = false;
+        let lastMouseX = 0, lastMouseY = 0;
+        
+        // Автовращение
+        let autoRotate = true;
+        let autoSpeed = 0.005;
+        
+        // ----- Обновление центра при ресайзе -----
+        function updateCenter() {
+            const rect = cloudZone.getBoundingClientRect();
+            centerX = rect.left + rect.width / 2;
+            centerY = rect.top + rect.height / 2;
         }
         
-        tags.forEach(tag => {
-            const x = parseFloat(tag.dataset.x);
-            const y = parseFloat(tag.dataset.y);
-            const z = parseFloat(tag.dataset.z);
-            const cosX = Math.cos(angleX); const sinX = Math.sin(angleX);
-            const cosY = Math.cos(angleY); const sinY = Math.sin(angleY);
-            const x1 = x * cosY - z * sinY;
-            const z1 = x * sinY + z * cosY;
-            const y1 = y * cosX - z1 * sinX;
-            const z2 = y * sinX + z1 * cosX;
-            const scale = config.radius / (config.radius + z2 + 100);
-            const opacity = 0.4 + (z2 + config.radius) / (2 * config.radius);
-            tag.style.left = `${config.center.x + x1 * scale}px`;
-            tag.style.top = `${config.center.y + y1 * scale}px`;
-            tag.style.transform = `translate(-50%, -50%) scale(${scale})`;
-            tag.style.opacity = opacity;
-            tag.style.zIndex = Math.floor(scale * 1000);
+        // ----- Построение облака (равномерное распределение по сфере) -----
+        function buildCloud() {
+            container.innerHTML = "";
+            items = [];
+            points3d = [];
+            const count = tagsArray.length;
+            
+            // Золотое сечение для равномерного распределения
+            const phiGolden = Math.PI * (3 - Math.sqrt(5));
+            
+            for (let i = 0; i < count; i++) {
+                const tag = tagsArray[i];
+                const el = document.createElement('a');
+                el.className = 'tag';
+                el.href = tag.url;
+                el.textContent = tag.text;
+                el.style.color = tag.color;
+                el.style.fontSize = `${tag.size}px`;
+                if (tag.url !== "#") {
+                    el.target = "_blank";
+                } else {
+                    el.href = "javascript:void(0)";
+                }
+                
+                // Сферические координаты (фибоначчи)
+                const y = 1 - (i / (count - 1)) * 2;  // от -1 до 1
+                const radiusAtY = Math.sqrt(1 - y*y);
+                const theta = i * phiGolden * 2;
+                
+                const x = radius * Math.cos(theta) * radiusAtY;
+                const z = radius * Math.sin(theta) * radiusAtY;
+                const yPos = radius * y;
+                
+                points3d.push({ x: x, y: yPos, z: z });
+                el.dataset.x = x;
+                el.dataset.y = yPos;
+                el.dataset.z = z;
+                
+                container.appendChild(el);
+                items.push(el);
+            }
+        }
+        
+        // ----- Отрисовка -----
+        function render() {
+            const cx = centerX;
+            const cy = centerY;
+            const rad = radius;
+            
+            for (let i = 0; i < items.length; i++) {
+                let p = points3d[i];
+                let x = p.x;
+                let y = p.y;
+                let z = p.z;
+                
+                // Поворот по Y
+                const cosY = Math.cos(angleY);
+                const sinY = Math.sin(angleY);
+                let x1 = x * cosY - z * sinY;
+                let z1 = x * sinY + z * cosY;
+                let y1 = y;
+                
+                // Поворот по X
+                const cosX = Math.cos(angleX);
+                const sinX = Math.sin(angleX);
+                let y2 = y1 * cosX - z1 * sinX;
+                let z2 = y1 * sinX + z1 * cosX;
+                let x2 = x1;
+                
+                // Перспектива
+                const scale = rad / (rad + z2 + 80);
+                const opacity = 0.4 + (z2 + rad) / (rad * 1.5);
+                const leftPos = cx + x2 * scale;
+                const topPos = cy + y2 * scale;
+                
+                const el = items[i];
+                el.style.left = `${leftPos}px`;
+                el.style.top = `${topPos}px`;
+                el.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                el.style.opacity = Math.min(0.95, Math.max(0.3, opacity));
+                el.style.zIndex = Math.floor(scale * 200);
+            }
+        }
+        
+        // ----- Анимация (плавное следование за углами) -----
+        function animate() {
+            // Плавная интерполяция
+            angleY += (targetAngleY - angleY) * 0.08;
+            angleX += (targetAngleX - angleX) * 0.08;
+            
+            // Автовращение если не тащим
+            if (autoRotate && !isDragging) {
+                targetAngleY += autoSpeed;
+            }
+            
+            render();
+            requestAnimationFrame(animate);
+        }
+        
+        // ----- Drag (мышь и тач) -----
+        function onDragStart(e) {
+            isDragging = true;
+            autoRotate = false;  // отключаем автовращение на время драга
+            let clientX = e.clientX;
+            let clientY = e.clientY;
+            if (e.touches) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+                e.preventDefault();
+            }
+            lastMouseX = clientX;
+            lastMouseY = clientY;
+            cloudZone.style.cursor = 'grabbing';
+        }
+        
+        function onDragMove(e) {
+            if (!isDragging) return;
+            let clientX = e.clientX;
+            let clientY = e.clientY;
+            if (e.touches) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+                e.preventDefault();
+            }
+            
+            let deltaX = clientX - lastMouseX;
+            let deltaY = clientY - lastMouseY;
+            
+            // Чувствительность
+            targetAngleY += deltaX * 0.007;
+            targetAngleX += deltaY * 0.007;
+            
+            // Ограничиваем наклон по X, чтобы не переворачивалось
+            targetAngleX = Math.min(1.2, Math.max(-1.2, targetAngleX));
+            
+            lastMouseX = clientX;
+            lastMouseY = clientY;
+        }
+        
+        function onDragEnd() {
+            isDragging = false;
+            autoRotate = true;
+            cloudZone.style.cursor = 'grab';
+        }
+        
+        // Вешаем события
+        cloudZone.addEventListener('mousedown', onDragStart);
+        window.addEventListener('mousemove', onDragMove);
+        window.addEventListener('mouseup', onDragEnd);
+        
+        cloudZone.addEventListener('touchstart', onDragStart, { passive: false });
+        window.addEventListener('touchmove', onDragMove, { passive: false });
+        window.addEventListener('touchend', onDragEnd);
+        
+        // Ресайз
+        window.addEventListener('resize', () => {
+            updateCenter();
+            // не пересобираем облако, просто обновляем центр
+            render();
         });
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-
-    // Слежение за мышью для интерактива
-    document.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX - config.center.x) * 2;
-        mouseY = (e.clientY - config.center.y) * 2;
-    });
-
-    container.addEventListener('mouseenter', () => { isInteracting = true; });
-    container.addEventListener('mouseleave', () => { isInteracting = false; });
-    window.addEventListener('resize', () => { config.center.x = window.innerWidth / 2; });
+        
+        // Небольшой фикс после скролла
+        window.addEventListener('scroll', () => {
+            updateCenter();
+            render();
+        });
+        
+        // Инициализация
+        function init() {
+            updateCenter();
+            buildCloud();
+            // Стартовые углы, чтобы было красиво
+            targetAngleY = 0.4;
+            angleY = 0.4;
+            targetAngleX = 0.2;
+            angleX = 0.2;
+            render();
+            animate();
+        }
+        
+        init();
+    })();
 </script>
-
 </body>
 </html>
