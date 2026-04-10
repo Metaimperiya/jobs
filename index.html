@@ -2,132 +2,110 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>METAIMPERIYA JOBS CHAT</title>
+<title>METAIMPERIYA AI CHAT</title>
 
 <style>
-body{
-    margin:0;
-    background:#020202;
-    color:#fff;
-    font-family:Arial;
-}
+body{margin:0;background:#050505;color:#fff;font-family:Arial}
+header{padding:20px;text-align:center;border-bottom:1px solid #00ff9c}
+h1{color:#00ff9c;margin:0}
 
-header{
-    text-align:center;
-    padding:30px;
-    border-bottom:1px solid #00ff9c;
-}
+.chat{max-width:800px;margin:20px auto}
+.messages{height:400px;overflow-y:auto;border:1px solid #00ff9c;padding:10px}
+.msg{padding:10px;border-bottom:1px solid #222}
+.user{color:#00ff9c}
+.ai{color:#4da6ff}
 
-h1{
-    color:#00ff9c;
-    margin:0;
-}
-
-.desc{
-    color:#aaa;
-    margin-top:10px;
-}
-
-.chat{
-    max-width:800px;
-    margin:20px auto;
-    padding:10px;
-}
-
-.messages{
-    height:400px;
-    overflow-y:auto;
-    border:1px solid #00ff9c;
-    padding:10px;
-    margin-bottom:10px;
-}
-
-.message{
-    padding:10px;
-    border-bottom:1px solid #333;
-}
-
-.input{
-    display:flex;
-    gap:10px;
-}
-
-input{
-    flex:1;
-    padding:12px;
-    background:#111;
-    border:1px solid #00ff9c;
-    color:#fff;
-}
-
-button{
-    padding:12px;
-    background:#00ff9c;
-    border:none;
-    cursor:pointer;
-}
+.input{display:flex;margin-top:10px}
+input{flex:1;padding:12px;background:#111;border:1px solid #00ff9c;color:#fff}
+button{padding:12px;background:#00ff9c;border:none;cursor:pointer}
+.login{max-width:800px;margin:20px auto;border:1px solid #00ff9c;padding:10px}
 </style>
 </head>
 
 <body>
 
 <header>
-<h1>METAIMPERIYA JOBS</h1>
-<div class="desc">
-GLOBAL JOB NETWORK • Пиши без регистрации • Все видят
-</div>
+<h1>METAIMPERIYA OPEN CHAT</h1>
 </header>
 
-<div class="chat">
-    <div class="messages" id="messages"></div>
-
-    <div class="input">
-        <input id="msg" placeholder="Напиши вакансию...">
-        <button onclick="send()">ОТПРАВИТЬ</button>
-    </div>
+<div class="login">
+<input id="name" placeholder="Имя (или оставь пустым = гость)">
+<button onclick="login()">ВОЙТИ</button>
+<div id="status">Не вошёл</div>
 </div>
 
-<!-- FIREBASE FIRESTORE -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<div class="chat">
+<div id="messages" class="messages"></div>
+
+<div class="input">
+<input id="msg" placeholder="Напиши сообщение...">
+<button onclick="send()">SEND</button>
+</div>
+</div>
 
 <script>
-// 🔴 ВСТАВЬ СВОЙ CONFIG
-const firebaseConfig = {
-  apiKey: "ТВОЙ_API_KEY",
-  authDomain: "ТВОЙ_PROJECT.firebaseapp.com",
-  projectId: "ТВОЙ_PROJECT"
-};
+let user = localStorage.getItem("user") || null;
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+function login(){
+    let name = document.getElementById("name").value;
+    if(!name) name = "Гость_" + Math.floor(Math.random()*9999);
 
-// загрузка сообщений
-db.collection("chat").orderBy("time")
-.onSnapshot(snapshot => {
+    user = name;
+    localStorage.setItem("user", user);
+    document.getElementById("status").innerText = "Ты: " + user;
+}
+
+if(user){
+    document.getElementById("status").innerText = "Ты: " + user;
+}
+
+// загрузка чата
+let chat = JSON.parse(localStorage.getItem("chat") || "[]");
+
+function render(){
     let box = document.getElementById("messages");
     box.innerHTML = "";
 
-    snapshot.forEach(doc => {
-        let data = doc.data();
-        box.innerHTML += `<div class="message">${data.text}</div>`;
+    chat.forEach(m=>{
+        box.innerHTML += `<div class="msg">
+            <b>${m.user}</b>: ${m.text}
+        </div>`;
     });
 
     box.scrollTop = box.scrollHeight;
-});
+}
+render();
+
+// fake AI (без API)
+function fakeAI(text){
+    let answers = [
+        "Понял. Опиши подробнее.",
+        "Это можно оформить как вакансию.",
+        "Добавь детали и зарплату.",
+        "Норм идея. Давай усилим.",
+        "Сделай SEO описание."
+    ];
+    return answers[Math.floor(Math.random()*answers.length)];
+}
 
 // отправка
 function send(){
     let input = document.getElementById("msg");
-    if(input.value.trim() === "") return;
+    let text = input.value;
 
-    db.collection("chat").add({
-        text: input.value,
-        time: Date.now()
-    });
+    if(!text) return;
+    if(!user) return alert("Сначала войди");
 
-    input.value = "";
+    chat.push({user:user, text:text});
+
+    // AI ответ
+    let ai = fakeAI(text);
+    chat.push({user:"METAIMPERIYA_AI", text:ai});
+
+    localStorage.setItem("chat", JSON.stringify(chat));
+
+    input.value="";
+    render();
 }
 </script>
 
