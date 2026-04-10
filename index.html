@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>METAIMPERIYA | SimsCreator — FIXED</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>METAIMPERIYA | SimsCreator</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -21,9 +21,9 @@
             font-family: 'Rajdhani', sans-serif;
             overflow-x: hidden;
             color: white;
+            min-height: 100vh;
         }
 
-        /* Сетка как фон */
         body::before {
             content: "";
             position: fixed;
@@ -39,9 +39,10 @@
             width: 100%;
             height: 460px;
             position: relative;
-            background: radial-gradient(circle at center, rgba(246,70,164,0.15) 0%, black 80%);
+            background: radial-gradient(circle at center, rgba(246,70,164,0.12) 0%, black 85%);
             cursor: grab;
             overflow: hidden;
+            border-bottom: 1px solid rgba(246,70,164,0.2);
         }
 
         #cloud-container:active {
@@ -63,63 +64,120 @@
             font-weight: bold;
             text-transform: uppercase;
             white-space: nowrap;
-            transition: all 0.15s ease-out;
+            transition: all 0.12s ease-out;
             text-shadow: 0 0 5px currentColor;
             will-change: transform, left, top;
-            background: rgba(0,0,0,0.3);
-            padding: 2px 8px;
-            border-radius: 30px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 4px 12px;
+            border-radius: 40px;
             pointer-events: auto;
             z-index: 10;
+            backdrop-filter: blur(2px);
         }
 
-        /* Увеличение при наведении — как ты хотел */
         .tag:hover {
-            transform: translate(-50%, -50%) scale(2.5) !important;
+            transform: translate(-50%, -50%) scale(2.8) !important;
             color: white !important;
             text-shadow: 0 0 20px currentColor;
             z-index: 2000 !important;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.8);
         }
 
         header {
             text-align: center;
-            padding: 10px;
+            padding: 20px 10px 10px;
         }
 
         h1 {
-            font-family: 'Orbitron';
-            font-size: 2.3rem;
-            color: var(--accent);
-            text-shadow: 0 0 12px var(--accent);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #F646A4, #FFB347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(246,70,164,0.5);
             letter-spacing: 2px;
         }
 
+        .sub {
+            color: #F646A4;
+            opacity: 0.7;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        /* ГЛАВНОЕ — контейнер с виджетом, который НЕ ВЫЛАЗИТ ЗА ЭКРАН */
         .container {
-            max-width: 950px;
-            margin: 0 auto 50px;
+            max-width: 100%;
+            margin: 30px auto 50px;
             padding: 0 16px;
         }
 
-        .main-card {
-            background: rgba(10,10,20,0.9);
+        /* Виджет — теперь всегда по центру, не уёбывает вправо */
+        .tg-window {
+            background: #03050a;
             border-radius: 28px;
-            padding: 22px;
-            border: 1px solid rgba(246,70,164,0.4);
-            backdrop-filter: blur(4px);
+            min-height: 500px;
+            border: 1px solid rgba(246,70,164,0.35);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.2s;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
         }
 
-        .tg-window {
-            background: #000;
-            border-radius: 20px;
-            min-height: 500px;
-            border: 1px solid rgba(246,70,164,0.25);
+        .tg-window:hover {
+            border-color: rgba(246,70,164,0.7);
+            box-shadow: 0 0 20px rgba(246,70,164,0.15);
+        }
+
+        /* Заглушка на самолетик — НИКУДА НЕ ПЕРЕХОДИТ */
+        .telegram-stupid-blocker {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        /* Сам виджет внутри — не вылазит */
+        #originalTelegramWidget {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Телеграмовский iframe (если он там) — не шире экрана */
+        iframe {
+            max-width: 100% !important;
+            width: 100% !important;
         }
 
         @media (max-width: 700px) {
             #cloud-container { height: 380px; }
-            .tag { font-size: 14px; }
+            .tag { font-size: 13px; padding: 2px 8px; }
             .tag:hover { transform: translate(-50%, -50%) scale(2.2) !important; }
+            h1 { font-size: 1.8rem; }
+            .container { padding: 0 12px; }
+        }
+
+        @media (max-width: 480px) {
+            #cloud-container { height: 320px; }
+            .tag { font-size: 11px; padding: 2px 6px; }
+            .container { padding: 0 10px; }
+            .tg-window { border-radius: 20px; min-height: 450px; }
+        }
+
+        /* Для телевизоров и больших экранов — ограничиваем, но центр */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1000px;
+                margin: 30px auto;
+            }
         }
     </style>
 </head>
@@ -131,26 +189,28 @@
 
 <header>
     <h1>METAIMPERIYA</h1>
+    <div class="sub">SIMSCREATOR • 3D INTERACTIVE NEBULA</div>
 </header>
 
 <div class="container">
-    <div class="main-card">
-        <div class="tg-window">
+    <div class="tg-window" id="tgBlockContainer">
+        <div id="originalTelegramWidget" style="width:100%; max-width:100%;">
             <script async src="https://telegram.org/js/telegram-widget.js?23"
                     data-telegram-discussion="SimsCreator/2"
                     data-comments-limit="5"
                     data-color="F646A4"
-                    data-dark="1">
+                    data-dark="1"
+                    data-width="100%">
             </script>
         </div>
+        <div id="telegramBlocker" class="telegram-stupid-blocker"></div>
     </div>
 </div>
 
 <script>
     (function() {
-        // ------ ТЕГИ (твои, рабочие) ------
         const tagsArray = [
-            { text: "НЯНЯ", color: "#FF6B6B", size: 24, url: "https://t.me/SimsCreator" },
+            { text: "НЯНЯ", color: "#FF6B6B", size: 24, url: "#" },
             { text: "БЕРЛИН", color: "#FFD93D", size: 22, url: "#" },
             { text: "ГУВЕРНАНТКА", color: "#C084FC", size: 26, url: "#" },
             { text: "МЮНХЕН", color: "#4DF8FF", size: 28, url: "#" },
@@ -160,68 +220,58 @@
             { text: "НЮРНБЕРГ", color: "#A78BFA", size: 26, url: "#" },
             { text: "GPT", color: "#34D399", size: 23, url: "#" },
             { text: "METAIMPERIYA", color: "#F646A4", size: 32, url: "#" },
-            { text: "SIMSCREATOR", color: "#FF8C42", size: 27, url: "https://t.me/SimsCreator" },
+            { text: "SIMSCREATOR", color: "#FF8C42", size: 27, url: "#" },
             { text: "ГУРУ", color: "#60A5FA", size: 22, url: "#" },
-            { text: "FRANKFURT", color: "#F472B6", size: 21, url: "#" }
+            { text: "FRANKFURT", color: "#F472B6", size: 21, url: "#" },
+            { text: "AI VISION", color: "#2DD4BF", size: 24, url: "#" },
+            { text: "METAVERSE", color: "#E879F9", size: 26, url: "#" }
         ];
 
         const container = document.getElementById('cloud');
         const cloudZone = document.getElementById('cloud-container');
         
-        let items = [];          // DOM элементы
-        let points3d = [];       // {x, y, z}
-        
-        // Параметры сферы
+        let items = [];
+        let points3d = [];
         let radius = 210;
-        let centerX = window.innerWidth / 2;
-        let centerY = cloudZone.clientHeight / 2;
-        
-        // Углы поворота
+        let centerX = 0;
+        let centerY = 0;
         let angleY = 0;
         let angleX = 0.2;
         let targetAngleY = 0;
         let targetAngleX = 0.2;
-        
         let isDragging = false;
         let lastMouseX = 0, lastMouseY = 0;
-        
-        // Автовращение
         let autoRotate = true;
         let autoSpeed = 0.005;
         
-        // ----- Обновление центра при ресайзе -----
         function updateCenter() {
             const rect = cloudZone.getBoundingClientRect();
             centerX = rect.left + rect.width / 2;
             centerY = rect.top + rect.height / 2;
         }
         
-        // ----- Построение облака (равномерное распределение по сфере) -----
         function buildCloud() {
             container.innerHTML = "";
             items = [];
             points3d = [];
             const count = tagsArray.length;
-            
-            // Золотое сечение для равномерного распределения
             const phiGolden = Math.PI * (3 - Math.sqrt(5));
+            
+            const w = window.innerWidth;
+            if (w < 500) radius = 150;
+            else if (w < 800) radius = 180;
+            else radius = 210;
             
             for (let i = 0; i < count; i++) {
                 const tag = tagsArray[i];
                 const el = document.createElement('a');
                 el.className = 'tag';
-                el.href = tag.url;
+                el.href = "javascript:void(0);";
                 el.textContent = tag.text;
                 el.style.color = tag.color;
                 el.style.fontSize = `${tag.size}px`;
-                if (tag.url !== "#") {
-                    el.target = "_blank";
-                } else {
-                    el.href = "javascript:void(0)";
-                }
                 
-                // Сферические координаты (фибоначчи)
-                const y = 1 - (i / (count - 1)) * 2;  // от -1 до 1
+                const y = 1 - (i / (count - 1)) * 2;
                 const radiusAtY = Math.sqrt(1 - y*y);
                 const theta = i * phiGolden * 2;
                 
@@ -230,152 +280,88 @@
                 const yPos = radius * y;
                 
                 points3d.push({ x: x, y: yPos, z: z });
-                el.dataset.x = x;
-                el.dataset.y = yPos;
-                el.dataset.z = z;
-                
                 container.appendChild(el);
                 items.push(el);
             }
         }
         
-        // ----- Отрисовка -----
         function render() {
-            const cx = centerX;
-            const cy = centerY;
-            const rad = radius;
-            
+            if (!centerX || !centerY) return;
             for (let i = 0; i < items.length; i++) {
                 let p = points3d[i];
-                let x = p.x;
-                let y = p.y;
-                let z = p.z;
-                
-                // Поворот по Y
-                const cosY = Math.cos(angleY);
-                const sinY = Math.sin(angleY);
+                let x = p.x, y = p.y, z = p.z;
+                const cosY = Math.cos(angleY), sinY = Math.sin(angleY);
                 let x1 = x * cosY - z * sinY;
                 let z1 = x * sinY + z * cosY;
-                let y1 = y;
-                
-                // Поворот по X
-                const cosX = Math.cos(angleX);
-                const sinX = Math.sin(angleX);
-                let y2 = y1 * cosX - z1 * sinX;
-                let z2 = y1 * sinX + z1 * cosX;
+                const cosX = Math.cos(angleX), sinX = Math.sin(angleX);
+                let y2 = y * cosX - z1 * sinX;
+                let z2 = y * sinX + z1 * cosX;
                 let x2 = x1;
-                
-                // Перспектива
-                const scale = rad / (rad + z2 + 80);
-                const opacity = 0.4 + (z2 + rad) / (rad * 1.5);
-                const leftPos = cx + x2 * scale;
-                const topPos = cy + y2 * scale;
-                
+                const scale = radius / (radius + z2 + 80);
+                const opacity = 0.4 + (z2 + radius) / (radius * 1.5);
                 const el = items[i];
-                el.style.left = `${leftPos}px`;
-                el.style.top = `${topPos}px`;
+                el.style.left = `${centerX + x2 * scale}px`;
+                el.style.top = `${centerY + y2 * scale}px`;
                 el.style.transform = `translate(-50%, -50%) scale(${scale})`;
                 el.style.opacity = Math.min(0.95, Math.max(0.3, opacity));
                 el.style.zIndex = Math.floor(scale * 200);
             }
         }
         
-        // ----- Анимация (плавное следование за углами) -----
         function animate() {
-            // Плавная интерполяция
             angleY += (targetAngleY - angleY) * 0.08;
             angleX += (targetAngleX - angleX) * 0.08;
-            
-            // Автовращение если не тащим
-            if (autoRotate && !isDragging) {
-                targetAngleY += autoSpeed;
-            }
-            
+            if (autoRotate && !isDragging) targetAngleY += autoSpeed;
             render();
             requestAnimationFrame(animate);
         }
         
-        // ----- Drag (мышь и тач) -----
         function onDragStart(e) {
             isDragging = true;
-            autoRotate = false;  // отключаем автовращение на время драга
-            let clientX = e.clientX;
-            let clientY = e.clientY;
-            if (e.touches) {
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
-                e.preventDefault();
-            }
-            lastMouseX = clientX;
-            lastMouseY = clientY;
+            autoRotate = false;
+            let cx = e.clientX, cy = e.clientY;
+            if (e.touches) { cx = e.touches[0].clientX; cy = e.touches[0].clientY; e.preventDefault(); }
+            lastMouseX = cx; lastMouseY = cy;
             cloudZone.style.cursor = 'grabbing';
         }
         
         function onDragMove(e) {
             if (!isDragging) return;
-            let clientX = e.clientX;
-            let clientY = e.clientY;
-            if (e.touches) {
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
-                e.preventDefault();
-            }
-            
-            let deltaX = clientX - lastMouseX;
-            let deltaY = clientY - lastMouseY;
-            
-            // Чувствительность
-            targetAngleY += deltaX * 0.007;
-            targetAngleX += deltaY * 0.007;
-            
-            // Ограничиваем наклон по X, чтобы не переворачивалось
+            let cx = e.clientX, cy = e.clientY;
+            if (e.touches) { cx = e.touches[0].clientX; cy = e.touches[0].clientY; e.preventDefault(); }
+            targetAngleY += (cx - lastMouseX) * 0.007;
+            targetAngleX += (cy - lastMouseY) * 0.007;
             targetAngleX = Math.min(1.2, Math.max(-1.2, targetAngleX));
-            
-            lastMouseX = clientX;
-            lastMouseY = clientY;
+            lastMouseX = cx; lastMouseY = cy;
         }
         
-        function onDragEnd() {
-            isDragging = false;
-            autoRotate = true;
-            cloudZone.style.cursor = 'grab';
-        }
+        function onDragEnd() { isDragging = false; autoRotate = true; cloudZone.style.cursor = 'grab'; }
         
-        // Вешаем события
         cloudZone.addEventListener('mousedown', onDragStart);
         window.addEventListener('mousemove', onDragMove);
         window.addEventListener('mouseup', onDragEnd);
-        
         cloudZone.addEventListener('touchstart', onDragStart, { passive: false });
         window.addEventListener('touchmove', onDragMove, { passive: false });
         window.addEventListener('touchend', onDragEnd);
         
-        // Ресайз
-        window.addEventListener('resize', () => {
-            updateCenter();
-            // не пересобираем облако, просто обновляем центр
-            render();
-        });
+        window.addEventListener('resize', () => { updateCenter(); buildCloud(); render(); });
+        window.addEventListener('scroll', () => { updateCenter(); render(); });
         
-        // Небольшой фикс после скролла
-        window.addEventListener('scroll', () => {
-            updateCenter();
-            render();
-        });
+        // Заглушка — самолётик не кликается
+        const blocker = document.getElementById('telegramBlocker');
+        if (blocker) {
+            blocker.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); return false; });
+            blocker.addEventListener('touchstart', (e) => { e.preventDefault(); e.stopPropagation(); }, { passive: false });
+        }
         
-        // Инициализация
         function init() {
             updateCenter();
             buildCloud();
-            // Стартовые углы, чтобы было красиво
-            targetAngleY = 0.4;
-            angleY = 0.4;
-            targetAngleX = 0.2;
-            angleX = 0.2;
+            targetAngleY = 0.4; angleY = 0.4;
+            targetAngleX = 0.2; angleX = 0.2;
             render();
             animate();
         }
-        
         init();
     })();
 </script>
