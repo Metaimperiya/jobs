@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>METAIMPERIYA JOBS</title>
+<title>METAIMPERIYA JOBS CHAT</title>
 
 <style>
 body{
@@ -13,26 +13,24 @@ body{
     font-family:Arial;
 }
 
-/* ШАПКА */
 header{
     text-align:center;
-    padding:40px 20px;
+    padding:30px;
     border-bottom:1px solid #00ff9c;
 }
 
 h1{
     color:#00ff9c;
-    font-size:40px;
+    margin:0;
 }
 
 .desc{
-    margin-top:10px;
     color:#aaa;
+    margin-top:10px;
 }
 
-/* ЧАТ */
 .chat{
-    max-width:900px;
+    max-width:800px;
     margin:20px auto;
     padding:10px;
 }
@@ -50,7 +48,6 @@ h1{
     border-bottom:1px solid #333;
 }
 
-/* ВВОД */
 .input{
     display:flex;
     gap:10px;
@@ -76,44 +73,47 @@ button{
 <body>
 
 <header>
-    <h1>METAIMPERIYA JOBS</h1>
-    <div class="desc">
-        GLOBAL JOB NETWORK • ВАКАНСИИ • РАБОТА • НАЙМ<br>
-        Пиши объявление сразу — без регистрации
-    </div>
+<h1>METAIMPERIYA JOBS</h1>
+<div class="desc">
+GLOBAL JOB NETWORK • Пиши без регистрации • Все видят
+</div>
 </header>
 
 <div class="chat">
     <div class="messages" id="messages"></div>
 
     <div class="input">
-        <input id="msg" placeholder="Напиши вакансию или предложение...">
+        <input id="msg" placeholder="Напиши вакансию...">
         <button onclick="send()">ОТПРАВИТЬ</button>
     </div>
 </div>
 
-<!-- FIREBASE -->
+<!-- FIREBASE FIRESTORE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
 <script>
-// 🔴 ВСТАВЬ СЮДА СВОЙ CONFIG
+// 🔴 ВСТАВЬ СВОЙ CONFIG
 const firebaseConfig = {
   apiKey: "ТВОЙ_API_KEY",
   authDomain: "ТВОЙ_PROJECT.firebaseapp.com",
-  databaseURL: "https://ТВОЙ_PROJECT-default-rtdb.firebaseio.com",
-  projectId: "ТВОЙ_PROJECT",
+  projectId: "ТВОЙ_PROJECT"
 };
 
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const db = firebase.firestore();
 
-// слушаем чат
-db.ref("chat").on("child_added", snap => {
-    let data = snap.val();
+// загрузка сообщений
+db.collection("chat").orderBy("time")
+.onSnapshot(snapshot => {
     let box = document.getElementById("messages");
+    box.innerHTML = "";
 
-    box.innerHTML += `<div class="message">${data.text}</div>`;
+    snapshot.forEach(doc => {
+        let data = doc.data();
+        box.innerHTML += `<div class="message">${data.text}</div>`;
+    });
+
     box.scrollTop = box.scrollHeight;
 });
 
@@ -122,8 +122,9 @@ function send(){
     let input = document.getElementById("msg");
     if(input.value.trim() === "") return;
 
-    db.ref("chat").push({
-        text: input.value
+    db.collection("chat").add({
+        text: input.value,
+        time: Date.now()
     });
 
     input.value = "";
